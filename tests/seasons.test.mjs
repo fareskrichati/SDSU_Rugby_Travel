@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { parseSeasonInput,isSeason,normalizeSeasons } from '../lib/seasons.ts';
+test('season input accepts consecutive fall/spring years and starting year',()=>{assert.equal(parseSeasonInput('2026–2027'),'2026-2027');assert.equal(parseSeasonInput('2027'),'2027-2028');assert.equal(parseSeasonInput('2026-2028'),null);assert.equal(isSeason('2026-2027'),true);assert.equal(isSeason('2027'),false);});
+test('fall and spring trips share a season and retain roster identity',()=>{const data={announcement:'Notice',trips:[{id:'fall',year:'2026',date:'2026-11-07'},{id:'spring',year:'2027',date:'2027-02-06'}],roster:[{id:'p1',name:'Player',year:'2026'},{id:'p2',name:'Other',year:'2027'}]};const result=normalizeSeasons(data);assert.deepEqual(result.trips.map(t=>t.year),['2026-2027','2026-2027']);assert.deepEqual(result.roster.map(p=>p.year),['2026-2027','2026-2027']);assert.equal(result.roster[0].id,'p1');assert.equal(data.trips[0].year,'2026');});
+test('explicit seasons are preserved when a trip has an unusual date',()=>{const result=normalizeSeasons({announcement:'',trips:[{id:'t',year:'2026-2027',date:'2028-01-01'}],roster:[{name:'Player',year:'2026-2027'}]});assert.equal(result.trips[0].year,'2026-2027');assert.equal(result.roster[0].year,'2026-2027');});
