@@ -2,10 +2,10 @@
 
 type Props = { value: string; label: string; onChange: (value: string) => void };
 function parseTime(value: string) {
- const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+ const match = value.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?$/i);
  if (!match) return null;
  let hour = Number(match[1]);
- const minute = Number(match[2]);
+ const minute = Number(match[2] || 0);
  if (minute > 59 || (match[3] ? hour < 1 || hour > 12 : hour > 23)) return null;
  const period = match[3]?.toUpperCase() || (hour >= 12 ? 'PM' : 'AM');
  hour = hour % 12 || 12;
