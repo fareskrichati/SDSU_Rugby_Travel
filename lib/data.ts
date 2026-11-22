@@ -1,5 +1,5 @@
 import type { PacketDetails } from './packet-template';
-export type Trip = { packet?:PacketDetails; id:string; year:string; opponent:string; city:string; date:string; kickoff:string; venue:string; address:string; departure:string; transport:string; hotel:string; meals:string; itinerary:string; packing:string; contact:string; notes:string; };
+export type Trip = { matchType?:'home'|'away'; packet?:PacketDetails; id:string; year:string; opponent:string; city:string; date:string; kickoff:string; venue:string; address:string; departure:string; transport:string; hotel:string; meals:string; itinerary:string; packing:string; contact:string; notes:string; };
 export type Player = { id?:string; name:string; number:string; position:string; year:string; };
 export type Packet = { trips:Trip[]; roster:Player[]; announcement:string; };
 export const blankTrip:Trip={id:'',year:'2026-2027',opponent:'',city:'',date:'',kickoff:'',venue:'',address:'',departure:'',transport:'',hotel:'',meals:'',itinerary:'',packing:'',contact:'',notes:''};

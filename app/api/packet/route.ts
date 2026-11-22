@@ -19,6 +19,7 @@ export async function POST(req:Request){
  const fields=['id','year','opponent','city','date','kickoff','venue','address','departure','transport','hotel','meals','itinerary','packing','contact','notes'];
  if(d.trips.some((t:any)=>fields.some(f=>typeof t[f]!=='string')||!t.opponent.trim())||d.roster.some((p:any)=>['name','number','position','year'].some(f=>typeof p[f]!=='string')))return Response.json({error:'Check the trip and roster fields.'},{status:400});
  d=normalizeSeasons(d);if(d.trips.some((t:any)=>!isSeason(t.year))||d.roster.some((p:any)=>!isSeason(p.year)))return Response.json({error:'Use a fall/spring season such as 2026-2027.'},{status:400});
+ if(d.trips.some((t:any)=>t.matchType!==undefined&&!['home','away'].includes(t.matchType)))return Response.json({error:'Choose Home or Away for the match location.'},{status:400});
  if(d.trips.some((t:any)=>t.packet!==undefined&&!detailsSchema.safeParse(t.packet).success))return Response.json({error:'Check the travel packet tables and fields.'},{status:400});
  if(d.roster.some((r:any)=>r.id!==undefined&&(typeof r.id!=='string'||r.id.length>200)))return Response.json({error:'Invalid roster player ID.'},{status:400});
  const playerIds=d.roster.map((r:any)=>r.id).filter(Boolean);if(new Set(playerIds).size!==playerIds.length)return Response.json({error:'Roster player IDs must be unique.'},{status:400});
