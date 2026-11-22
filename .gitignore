@@ -43,3 +43,10 @@ yarn-error.log*
 
 # OS metadata
 .DS_Store
+
+# Netlify and local-only packet data
+/.netlify/
+/.local-data/
+
+# Checked-in template contains names only, never secret values.
+!.env.example
